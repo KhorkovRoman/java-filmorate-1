@@ -102,7 +102,7 @@ public class FilmService {
         }
         if ("title".equals(split[0])) {
             films = filmsByDirectorsAndFilms.stream()
-                    .filter(film -> film.getName().toLowerCase().contains(query.toLowerCase()))
+                    .filter(film -> isContain(film.getName(), query))
                     .collect(Collectors.toList());
         } else {
             films = filmsByDirectorsAndFilms.stream()
@@ -114,10 +114,18 @@ public class FilmService {
 
     private boolean isDirectorFind(Film film, String query) {
         for (Director director : film.getDirectors()) {
-            if (director.getName().toLowerCase().contains(query.toLowerCase())) {
+            if (isContain(director.getName(), query)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean isContain(String line, String query) {
+        if (line.toLowerCase().contains(query.toLowerCase())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
